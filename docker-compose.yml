@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  ia-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ia-service
+    ports:
+      - "8005:80"
+    volumes:
+      - ./app:/var/www/html/app
+      - ./resources:/var/www/html/resources
+      - ./config:/var/www/html/config
+      - ./database:/var/www/html/database
+      - ./tests:/var/www/html/tests
+      - ./routes:/var/www/html/routes 
+      - ./composer.json:/var/www/html/composer.json
+      - ./composer.lock:/var/www/html/composer.lock 
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: ia-db
+      DB_PORT: 3306
+      DB_DATABASE: ia_db
+      DB_USERNAME: root
+      DB_PASSWORD: secret
+    networks:
+      - laravel-network
+    depends_on:
+      - ia-db
+
+  ia-db:
+    image: mysql:latest
+    container_name: ia-db
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: ia_db
+    ports:
+      - "3309:3306"
+    networks:
+      - laravel-network
+
+networks:
+  laravel-network:
+    external: true
