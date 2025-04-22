@@ -35,4 +35,14 @@ return [
         ],
     ],
 
+    'ai' => [  
+         'default_provider' => env('AI_DEFAULT_PROVIDER', 'gemini'),
+    ],
+
+    'gemini' => [       'api_key' => env('GEMINI_API_KEY'),
+        'base_url' => env('GEMINI_BASE_URL', 'https://generativelanguage.googleapis.com/v1beta'),
+        'model_id' => env('GEMINI_MODEL_ID', 'gemini-2.0-flash'),
+    ],
+
+
 ];
