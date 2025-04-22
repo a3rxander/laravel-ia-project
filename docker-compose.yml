@@ -17,6 +17,7 @@ services:
       - ./routes:/var/www/html/routes 
       - ./composer.json:/var/www/html/composer.json
       - ./composer.lock:/var/www/html/composer.lock 
+      - ./bootstrap:/var/www/html/bootstrap
     environment:
       DB_CONNECTION: mysql
       DB_HOST: ia-db

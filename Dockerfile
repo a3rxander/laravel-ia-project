@@ -40,7 +40,9 @@ RUN chmod -R 777 storage
 RUN sed -i -e 's/html/html\/public/g' /etc/apache2/sites-available/000-default.conf
 
 # Enable Apache rewrite module
-RUN a2enmod rewrite 
+RUN a2enmod rewrite
+
+
 
 # Expose port 80
 EXPOSE 80
