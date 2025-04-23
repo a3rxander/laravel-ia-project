@@ -4,6 +4,7 @@ namespace App\Services\AI;
 
 use App\Services\AI\Interfaces\AIServiceInterface;
 use App\Services\AI\Providers\GeminiService;
+use App\Services\AI\Providers\DeepseekService;
 use Illuminate\Support\Facades\App;
 
 class AIFactory
@@ -24,8 +25,8 @@ class AIFactory
             case 'gemini':
                 return App::make(GeminiService::class);
             // Additional providers can be added in the future
-            // case 'openai':
-            //     return App::make(OpenAIService::class);
+             case 'deepseek':
+                return App::make(DeepseekService::class);
             default:
                 throw new \Exception("The AI provider '$provider' is not supported");
         }

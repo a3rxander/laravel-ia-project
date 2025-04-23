@@ -25,7 +25,7 @@ class AIController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'prompt' => 'required|string|max:4000',
-            'provider' => '|in:gemini,openai',
+            'provider' => 'required|string',
             'options' => 'nullable|array',
         ]);
         
