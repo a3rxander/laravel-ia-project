@@ -2,11 +2,11 @@
 
 namespace App\Services\AI\Providers;
 
-use App\Services\AI\Interfaces\AIServiceInterface;
+use App\Services\AI\Interfaces\TextProcessingInterface;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class DeepseekService implements AIServiceInterface
+class DeepseekService implements TextProcessingInterface
 {
     protected $apiKey;
     protected $baseUrl;
@@ -23,11 +23,27 @@ class DeepseekService implements AIServiceInterface
         }
     }
 
+    public function getProviderName(): string
+    {
+        return 'DeepSeek';
+    }
+
+    public function isReady(): bool
+    {
+        return $this->apiKey !== null;
+    }
+
+    public function getCapabilities(): array
+    {
+        return ['text'];
+    }
+
     public function generateText(string $prompt, array $options = []): string
     {
         try {
             $messageList = [];
-            $messageList[] = ['role' => 'system', 'content' => $prompt];
+            $messageList[] = ['role' => 'system', 'content' => 'You are a helpful assistant. Please respond to the user\'s input.'];
+            $messageList[] = ['role' => 'user', 'content' => $prompt];
 
             $endpoint = "{$this->baseUrl}/chat/completions";
 
@@ -56,18 +72,7 @@ class DeepseekService implements AIServiceInterface
             Log::error('It was not possible to generate text with deepseek: ' . $e->getMessage());
             throw $e;
         }
-    }
-
-    public function generateImage(string $prompt, array $options = []): string
-    {
-        try {
-            throw new \Exception('It is not possible to generate images with the current configuration of the deepseek API.');
-        } catch (\Exception $e) {
-            Log::error('Error: ' . $e->getMessage());
-            throw $e;
-        }
-    }
-
+    } 
     public function analyzeSentiment(string $text): array
     {
         //this is a example how to add some instructions before the prompt

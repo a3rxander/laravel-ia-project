@@ -16,25 +16,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        
-         // Binding for AI services
-         $this->app->bind(AIServiceInterface::class, function ($app) {
-            return new GeminiService();
-        });
+         
         
         // Binding  for AI repository
         $this->app->bind(AIRepositoryInterface::class, function ($app) {
             return new AIRepository();
-        });
-        
-        // Set singletons for easier access
-        $this->app->singleton('ai.service', function ($app) {
-            return $app->make(AIServiceInterface::class);
-        });
-        
-        $this->app->singleton('ai.repository', function ($app) {
-            return $app->make(AIRepositoryInterface::class);
-        });
+        }); 
         
     }
 
